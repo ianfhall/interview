@@ -62,11 +62,13 @@ public class Problem407 {
 
             // If the height of the node is less than level of the water,
             // increase the total water held.
+            // Otherwise, the max we are able to hold is now the height of the node.
             if (node.h < level) {
-                 water += level - node.h;
+                water += level - node.h;
+            } else {
+                level = node.h;
             }
             
-            level = Math.max(level, node.h);
             for (int i = 0; i < dir.length; ++i) {
                 int x = node.x + dir[i][0];
                 int y = node.y + dir[i][1];
