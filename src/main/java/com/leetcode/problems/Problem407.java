@@ -33,24 +33,24 @@ public class Problem407 {
         }
 
         PriorityQueue<Node> q = new PriorityQueue<Node>();
-        int m = heightmap.length;
-        int n = heightmap[0].length;
-        boolean[][] visited = new boolean[m][n];
+        int width = heightmap.length;
+        int length = heightmap[0].length;
+        boolean[][] visited = new boolean[width][length];
 
         // Go along the outside of the grid and put the all the nodes we find
         // Put in the top, bottom, and left, right at the same time
-        for (int i = 0; i < m; ++i) {
+        for (int i = 0; i < width; ++i) {
             q.add(new Node(i, 0, heightmap[i][0]));
-            q.add(new Node(i, 0, heightmap[i][n - 1]));
+            q.add(new Node(i, 0, heightmap[i][length - 1]));
             visited[i][0] = true;
-            visited[i][n-1] = true;
+            visited[i][length-1] = true;
         }
 
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < length; ++i) {
             q.add(new Node(0, i, heightmap[0][i]));
-            q.add(new Node(m - 1, i, heightmap[m - 1][i]));
+            q.add(new Node(width - 1, i, heightmap[width - 1][i]));
             visited[0][i] = true;
-            visited[m-1][i] = true;
+            visited[width-1][i] = true;
         }
 
         // I now have all the outside edges in the heap.  Let's start examining neighbors.  We are effectively doing a BFS.
@@ -72,7 +72,7 @@ public class Problem407 {
             for (int i = 0; i < dir.length; ++i) {
                 int x = node.x + dir[i][0];
                 int y = node.y + dir[i][1];
-                if (x < 0 || x >= m || y < 0 || y >= n || visited[x][y] == true) {
+                if (x < 0 || x >= width || y < 0 || y >= length || visited[x][y] == true) {
                     continue;
                 }
 
@@ -88,7 +88,7 @@ public class Problem407 {
 
 // Explanation:
 // Let's look at edges.  The edges can't hold any water because it will flow right off the side.
-// What we really want is to look at the spaces where the edges are higher than the inside.  Whenver the outside is higher than the inside, the
+// What we really want is to look at the spaces where the edges are higher than the inside.  Whenever the outside is higher than the inside, the
 // inside will hold some water.  So we start with any given node and call it the boundary.  Whenever a boundary is lower than it's neighbors, then
 // the neighbors will become the new boundary. So if the all the edges are higher than what's on the inside, you effectively have a tub and we will
 // have lots of water.  Let's start by examining the outside edges.  Start with the shortest node and look at its neighbors.  If any neighbors are taller,

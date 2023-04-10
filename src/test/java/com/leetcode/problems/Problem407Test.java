@@ -21,7 +21,12 @@ public class Problem407Test {
         
         TestCase[] tests = new TestCase[] {
             new TestCase(new int[][]{{1,4,3,1,3,2},{3,2,1,3,2,4},{2,3,3,2,3,1}}, 4),
-            new TestCase(new int[][]{{3,3,3,3,3},{3,2,2,2,3},{3,2,1,2,3},{3,2,2,2,3},{3,3,3,3,3}}, 10)
+            new TestCase(new int[][]{{3,3,3,3,3},{3,2,2,2,3},{3,2,1,2,3},{3,2,2,2,3},{3,3,3,3,3}}, 10),
+            new TestCase(new int[][]{{1,1,1},{1,0,1},{1,1,1}}, 1),
+            new TestCase(new int[][]{{3,3,3},{1,0,1},{3,3,3}}, 1),
+            new TestCase(new int[][]{{3,3,3},{3,0,3},{3,3,3}}, 3),
+            new TestCase(new int[][]{{3,3,3},{3,-1,3},{3,3,3}}, 4),
+            new TestCase(new int[][]{{3,3,3},{0,0,3},{3,3,3}}, 0),
         };
 
         Problem407 p = new Problem407();
