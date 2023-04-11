@@ -11,77 +11,66 @@ import java.util.PriorityQueue;
 // We have two small ponds 1 and 3 units trapped.
 // The total volume of water trapped is 4.
 public class Problem407 {
-    private class Node implements Comparable<Node>{
+    private class Node {
         public int x;
         public int y;
-        public int h;
-        public Node(int x, int y, int h) {
+
+        public Node(int x, int y) {
             this.x = x;
             this.y = y;
-            this.h = h;
-        }
-
-        public int compareTo(Node n) {
-            return this.h - n.h;
         }
     }
 
-    public int trappingWater2(int[][] heightmap) {
-        // Easy bounds check
-        if (heightmap == null || heightmap.length == 0 || heightmap[0].length == 0) {
-            return 0;
-        }
+    public int trappingWater2(int[][] heightMap) {
+        int width=heightMap.length;
+        int length=heightMap[0].length;
 
-        PriorityQueue<Node> q = new PriorityQueue<Node>();
-        int width = heightmap.length;
-        int length = heightmap[0].length;
-        boolean[][] visited = new boolean[width][length];
+        PriorityQueue<Node> pq=new PriorityQueue<>(
+            (left, right) -> heightMap[left.x][left.y] - heightMap[right.x][right.y]
+        );
+
+        boolean visited[][]=new boolean[width][length];
 
         // Go along the outside of the grid and put the all the nodes we find
         // Put in the top, bottom, and left, right at the same time
         for (int i = 0; i < width; ++i) {
-            q.add(new Node(i, 0, heightmap[i][0]));
-            q.add(new Node(i, 0, heightmap[i][length - 1]));
+            pq.add(new Node(i, 0));
+            pq.add(new Node(i, length - 1));
             visited[i][0] = true;
             visited[i][length-1] = true;
         }
 
         for (int i = 0; i < length; ++i) {
-            q.add(new Node(0, i, heightmap[0][i]));
-            q.add(new Node(width - 1, i, heightmap[width - 1][i]));
+            pq.add(new Node(0, i));
+            pq.add(new Node(width - 1, i));
             visited[0][i] = true;
             visited[width-1][i] = true;
         }
-
-        // I now have all the outside edges in the heap.  Let's start examining neighbors.  We are effectively doing a BFS.
-        int level = Integer.MIN_VALUE;
+        
+        int [][]dirs = {{0,1},{0,-1},{1,0},{-1,0}};
         int water = 0;
-        int[][] dir = new int[][]{{0, 1},{0, -1},{1, 0},{-1, 0}};
-        while (!q.isEmpty()) {
-            Node node = q.poll();
+        int max = Integer.MIN_VALUE;
+        while(pq.size()>0){
+            Node node = pq.remove();
+            int curLevel = heightMap[node.x][node.y];
+            max = Math.max(max, curLevel);
 
-            // If the height of the node is less than level of the water,
-            // increase the total water held.
-            // Otherwise, the max we are able to hold is now the height of the node.
-            if (node.h < level) {
-                water += level - node.h;
-            } else {
-                level = node.h;
+            if (curLevel < max) {
+                water += max - curLevel;
             }
-            
-            for (int i = 0; i < dir.length; ++i) {
-                int x = node.x + dir[i][0];
-                int y = node.y + dir[i][1];
-                if (x < 0 || x >= width || y < 0 || y >= length || visited[x][y] == true) {
+
+            for(int dir[]:dirs){
+                int x = node.x + dir[0];
+                int y = node.y + dir[1];
+
+                if (x < 0 || x >= width || y < 0 || y >= length || visited[x][y]) {
                     continue;
                 }
 
-                int h = heightmap[x][y];
-                q.add(new Node(x, y, h));
+                pq.add(new Node(x, y));
                 visited[x][y] = true;
             }
         }
-
         return water;
     }
 }

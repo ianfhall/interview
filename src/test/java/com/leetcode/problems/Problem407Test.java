@@ -25,6 +25,7 @@ public class Problem407Test {
             new TestCase(new int[][]{{3,3,3},{3,0,3},{3,3,3}}, 3),
             new TestCase(new int[][]{{3,3,3},{3,-1,3},{3,3,3}}, 4),
             new TestCase(new int[][]{{3,3,3},{0,0,3},{3,3,3}}, 0),
+            new TestCase(new int[][]{{5,8,7,7},{5,2,1,5},{7,1,7,1},{8,9,6,9},{9,8,9,9}}, 12),
         };
 
         Problem407 p = new Problem407();
